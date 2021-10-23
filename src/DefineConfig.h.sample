@@ -1,0 +1,64 @@
+/*
+ * General
+ */
+#define SERIAL_BPS 115200
+
+/*
+ * Define Mode
+ */
+#define SETUP_MODE 0
+#define DEFAULT_MODE 1
+#define BUTTON_PUSH_TERM 5000
+
+/*
+ * Define Error Code.
+ */
+#define SUCCESSED 0
+#define ERR 1
+#define FAILED -1
+
+/*
+ * Default Wifi SSID and password.
+ */
+#define WIFI_SSID "SmartTerrarium"  // terrarium ssid
+#define WIFI_PASS "password1234!"  // terrarium wifi pw
+#define RETRY_INTERVAL 250  // connection retry interval 250 ms
+#define CONNECTION_TIMEOUT 10000 // 10 sec
+
+/* 
+ * NTP Configuration.
+ */
+#define BASE_UNIX_TIME 915148801 // 1999-1-1 00:00:00
+#define NTP_SERVER1 "time.google.com"  // google NTP server
+#define NTP_SERVER2 "ntp.nict.jpntp.nict.jp"  //  NICT NTP server
+#define TIMEZONE_OFFSET (9 * 60 * 60)  // UTC+9h (JST)
+#define DAYLIGHT_OFFSET 0 // Summaer Time Offset
+
+/*
+ * MQTT Client Configuration
+ * 
+ */
+// Example: xxxxxxxxxxxxxx.iot.ap-northeast-1.amazonaws.com
+#define MQTT_ENDPOINT "xxxxxxxxxxxxxx.iot.ap-northeast-1.amazonaws.com"
+#define PORT 8883
+#define QOS 0
+#define MQTT_MSG_SIZE 2048
+
+/*  
+ *  Certification and Private Key Configuration.
+ */
+// Root CA Certificate proviced by AWS for Amazon Trust Services Endpoint.
+// Download: https://docs.aws.amazon.com/ja_jp/iot/latest/developerguide/server-authentication.html#server-authentication-certs
+const char* ROOT_CA = R"EOF(
+Entry your Root CA
+)EOF";
+
+// Client Certificate Created by AWS IoT Console.
+const char* CERTIFICATE = R"EOF(
+Entry your Cert
+)EOF";
+
+// Client private key created by AWS IoT Console.
+const char* PRIVATE_KEY = R"EOF(
+Entry your private key
+)EOF";
