@@ -23,7 +23,7 @@
 #define WIFI_SSID "SmartTerrarium"  // terrarium ssid
 #define WIFI_PASS "password1234!"  // terrarium wifi pw
 #define RETRY_INTERVAL 250  // connection retry interval 250 ms
-#define CONNECTION_TIMEOUT 10000 // 10 sec
+#define CONNECTION_TIMEOUT 15000 // 15 sec
 
 /* 
  * NTP Configuration.
@@ -50,15 +50,15 @@
 // Root CA Certificate proviced by AWS for Amazon Trust Services Endpoint.
 // Download: https://docs.aws.amazon.com/ja_jp/iot/latest/developerguide/server-authentication.html#server-authentication-certs
 const char* ROOT_CA = R"EOF(
-Entry your Root CA
+< Entry your Root CA >
 )EOF";
 
 // Client Certificate Created by AWS IoT Console.
 const char* CERTIFICATE = R"EOF(
-Entry your Cert
+< Entry your Cert >
 )EOF";
 
 // Client private key created by AWS IoT Console.
 const char* PRIVATE_KEY = R"EOF(
-Entry your private key
+< Entry your private key >
 )EOF";
