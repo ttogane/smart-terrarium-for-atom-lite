@@ -55,7 +55,7 @@ void ThunderboltLed::task()
 }
 
 
-boolean ThunderboltLed::getTaskState()
+boolean ThunderboltLed::isDone()
 {
   return flg;
 }

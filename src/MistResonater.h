@@ -18,9 +18,9 @@ class MistResonater {
 
   
   void task();
-  boolean getTaskState();
+  boolean isDone();
   void setTaskState(boolean taskState);
-  
+  void resetTask();
 };
 
 #endif

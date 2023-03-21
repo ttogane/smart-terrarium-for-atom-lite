@@ -32,7 +32,7 @@ void SunshineLed::task()
 }
 
 
-boolean SunshineLed::getTaskState()
+boolean SunshineLed::isDone()
 {
   return flg;
 }
@@ -42,3 +42,4 @@ void SunshineLed::setTaskState(boolean taskState)
 {
   flg = taskState;
 }
+

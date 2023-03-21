@@ -33,7 +33,7 @@ void MistResonater::task()
 }
 
 
-boolean MistResonater::getTaskState()
+boolean MistResonater::isDone()
 {
   return flg;
 }

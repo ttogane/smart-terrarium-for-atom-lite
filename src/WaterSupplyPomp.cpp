@@ -33,7 +33,7 @@ void WaterSupplyPomp::task()
 }
 
 
-boolean WaterSupplyPomp::getTaskState()
+boolean WaterSupplyPomp::isDone()
 {
   return flg;
 }

@@ -42,7 +42,7 @@
 #define MQTT_ENDPOINT "xxxxxxxxxxxxxx.iot.ap-northeast-1.amazonaws.com"
 #define PORT 8883
 #define QOS 0
-#define MQTT_MSG_SIZE 2048
+#define MQTT_MAX_PACKET_SIZE 2048
 
 /*  
  *  Certification and Private Key Configuration.

@@ -17,8 +17,7 @@ class WaterSupplyPomp {
   void init(int delaySec);
   
   void task();
-  boolean getTaskState();
+  boolean isDone();
   void setTaskState(boolean taskState);
-  
 };
 #endif
