@@ -329,12 +329,6 @@ void mqttCallback(char *topic, byte *payload, unsigned int length)
         Serial.println("天気の生成に失敗しました。");
       }
 
-      // モジュールタスクの実行
-      // if(!sunshineLed.getTaskState()) sunshineLed.task();
-      // if(!mistResonater.getTaskState()) mistResonater.task();
-      // if(!waterPomp.getTaskState()) waterPomp.task();
-      // if(!thunderLed.getTaskState()) thunderLed.task();
-
       // execute module tasks
       boolean isExecuted = true;
       while(isExecuted) {
@@ -417,6 +411,7 @@ void initMqtt(uint8_t *mac0, int size)
   mqttClient.setServer(MQTT_ENDPOINT, PORT);
   mqttClient.setCallback(mqttCallback);
   mqttClient.setBufferSize(MQTT_MAX_PACKET_SIZE);
+  mqttClient.setKeepAlive(MQTT_KEEPALIVE);
 
   // connect to AWS IoT
   connectAWSIoT();
