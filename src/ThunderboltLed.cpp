@@ -4,6 +4,7 @@
 ThunderboltLed::ThunderboltLed(int pin) {
   outPin = pin;
   pinMode(outPin, OUTPUT);
+  flg = true;
 }
 
 void ThunderboltLed::init(int delaySec)

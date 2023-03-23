@@ -5,7 +5,8 @@
 MistResonater::MistResonater(int pin) 
 {
   outPin = pin;  
-  pinMode(outPin, OUTPUT);  
+  pinMode(outPin, OUTPUT);
+  flg = true;
 }
 
 void MistResonater::init(int delaySec)

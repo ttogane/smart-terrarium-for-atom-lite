@@ -5,7 +5,8 @@
 SunshineLed::SunshineLed(int pin) 
 {
   outPin = pin;  
-  pinMode(outPin, OUTPUT);  
+  pinMode(outPin, OUTPUT);
+  flg = true;
 }
 
 void SunshineLed::init(int delaySec)

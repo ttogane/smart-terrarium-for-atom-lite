@@ -4,9 +4,8 @@
 
 WaterSupplyPomp::WaterSupplyPomp(int pin) {
   outPin = pin;
-    
   pinMode(outPin, OUTPUT);
-    
+  flg = true;
 }
   
 void WaterSupplyPomp::init(int delaySec)

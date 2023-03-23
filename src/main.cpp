@@ -340,16 +340,10 @@ void mqttCallback(char *topic, byte *payload, unsigned int length)
         if(!thunderLed.isDone()) thunderLed.task();
 
         isExecuted = !(sunshineLed.isDone()
-                            || mistResonater.isDone()
-                            || waterPomp.isDone()
-                            || thunderLed.isDone());
+                            && mistResonater.isDone()
+                            && waterPomp.isDone()
+                            && thunderLed.isDone());
 
-        Serial.println(sunshineLed.isDone());
-        Serial.println(mistResonater.isDone());
-        Serial.println(waterPomp.isDone());
-        Serial.println(thunderLed.isDone());
-
-        Serial.println(isExecuted);
         delay(500);
 
       }
