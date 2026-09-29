@@ -1,9 +1,8 @@
 #include <Arduino.h>
 #include <M5Atom.h>
 #include <WiFi.h>
-#include <HttpClient.h>
 #include <WebServer.h>
-#include <Arduino_JSON.h>
+#include <ArduinoJson.h>
 #include "FS.h"
 #include <SPIFFS.h>
 #include <time.h>
@@ -15,11 +14,6 @@
 // import Application Define Config
 #include "DefineConfig.h"
 
-// import Ctl module
-#include "MistResonater.h"
-#include "SunshineLed.h"
-#include "ThunderboltLed.h"
-#include "WaterSupplyPomp.h"
 
 // Boot Mode String
 String modeStr[] = {"SETUP", "DEFAULT"};
@@ -34,17 +28,6 @@ const int32_t green = 0x300000;  // wifi connected
 const int32_t blue = 0x000040;   // device starting
 const int32_t white = 0x202020;  // Not Asssign
 
-// Digital I/O PIN
-int out1 = 22;
-int out2 = 19;
-int out3 = 23;
-int out4 = 33;
-
-// instance
-SunshineLed sunshineLed(out1);
-MistResonater mistResonater(out2);
-WaterSupplyPomp waterPomp(out3);
-ThunderboltLed thunderLed(out4);
 
 // wifi setting file
 const String wifi_settings = "/wifi_settings.txt";
@@ -287,78 +270,50 @@ void mqttCallback(char *topic, byte *payload, unsigned int length)
   Serial.println(res);
 
   // convert to json object
-  JSONVar obj = JSON.parse(res);
+  JsonDocument obj;
+  deserializeJson(obj, res);
 
   // get weather data
-  if(obj.hasOwnProperty("weather")) {
-    
-    JSONVar weathers = obj["weather"];
+  if(!obj["weather"].isNull()) {
 
-    for(uint8_t i = 0; i < weathers.length(); i++){
-      JSONVar weather = weathers[i];
+    JsonArray weathers = obj["weather"].as<JsonArray>();
 
-      String main  =  (const char*)weather["weather"];
-      long delaySec = (const int)weather["delay"];
+    for(uint8_t i = 0; i < weathers.size(); i++){
+      JsonVariant weather = weathers[i];
+
+      String main  =  weather["weather"].as<const char*>();
+      long delaySec = weather["delay"].as<long>();
 
       Serial.println("weather: " + main);
       Serial.print("delay: ");
       Serial.println(delaySec);
 
-      // // module initialized
       if(main.equals("Sunny")) {
         Serial.println("天気は晴れです。");
-        sunshineLed.init(delaySec);
-
       }
       else if(main.equals("Clouds")) {
         Serial.println("天気は曇りです。");
-        mistResonater.init(delaySec);
-
       }
       else if(main.equals("Rainy")) {
         Serial.println("天気は雨です。");
-        waterPomp.init(delaySec);
-
       } else if(main.equals("Thunderstorm")) {
-        // Todo: Ledの発行に工夫が必要なため保留(モジュールSSRの選定のみ)
         Serial.println("天気は雷雨です。");
-        waterPomp.init(delaySec);
-        thunderLed.init(delaySec);
-
       } else {
         Serial.println("天気の生成に失敗しました。");
-      }
-
-      // execute module tasks
-      boolean isExecuted = true;
-      while(isExecuted) {
-  
-        // モジュールタスクの実行
-        if(!sunshineLed.isDone()) sunshineLed.task();
-        if(!mistResonater.isDone()) mistResonater.task();
-        if(!waterPomp.isDone()) waterPomp.task();
-        if(!thunderLed.isDone()) thunderLed.task();
-
-        isExecuted = !(sunshineLed.isDone()
-                            && mistResonater.isDone()
-                            && waterPomp.isDone()
-                            && thunderLed.isDone());
-
-        delay(500);
-
       }
     }
 
     // Received Response
-    JSONVar response;
-    response["id"] = (const char*)obj["id"];
-    publishTopic(JSON.stringify(response));
+    JsonDocument response;
+    response["id"] = obj["id"].as<const char*>();
+    String responseStr;
+    serializeJson(response, responseStr);
+    publishTopic(responseStr);
   }
   
   Serial.println("callback end...");
 }
 
-JSONVar obj;
 void mqttLoop()
 {
   if (!mqttClient.connected())
@@ -416,7 +371,7 @@ void initMqtt(uint8_t *mac0, int size)
  */
 void handleSetupWifiApi()
 {
-  JSONVar obj;
+  JsonDocument obj;
   String message;
   int errorCode;
   String res;
@@ -428,18 +383,17 @@ void handleSetupWifiApi()
     int n = WiFi.scanNetworks();
     Serial.println(n);
 
-    JSONVar wifi;
     for (int i = 0; i < n; i++)
     {
+      JsonObject wifi = obj["accessPoint"].add<JsonObject>();
       wifi["rssi"] = WiFi.RSSI(i);
-      wifi["ssid"] = (String)WiFi.SSID(i);
-      obj["accessPoint"][i] = wifi;
+      wifi["ssid"] = WiFi.SSID(i);
       delay(10);
     }
 
     obj["message"] = "ok";
     obj["errorCode"] = SUCCESSED;
-    res = JSON.stringify(obj);
+    serializeJson(obj, res);
 
     // Access Log
     Serial.println("[http] [GET] [" + url_path + "]  " + res);
@@ -447,7 +401,7 @@ void handleSetupWifiApi()
   else if (server.method() == HTTP_POST)
   {
 
-    obj = JSON.parse(server.arg("plain"));
+    deserializeJson(obj, server.arg("plain"));
     const char *id = obj["ssid"];
     const char *pw = obj["password"];
 
@@ -469,7 +423,7 @@ void handleSetupWifiApi()
 
     obj["message"] = message;
     obj["errorCode"] = errorCode;
-    res = JSON.stringify(obj);
+    serializeJson(obj, res);
 
     // Access Log
     Serial.println("[http] [POST] [" + url_path + "]  " + res);
@@ -511,7 +465,7 @@ boolean modeDefault()
   Serial.println("SSID: " + ssid);
   Serial.println("PASS: " + password);
 
-  if (ssid == null && password == null)
+  if (ssid == nullptr && password == nullptr)
   {
     Serial.println("initial start");
   }
