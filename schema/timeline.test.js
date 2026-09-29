@@ -47,7 +47,8 @@ for (const name of fixtureNames("valid")) {
 
 const invalidCases = [
   { name: "frames-over-limit.json", expectedError: "/frames must NOT have more than 200 items" },
-  { name: "t-not-monotonic.json", expectedError: "frames[2].t" },
+  { name: "t-not-monotonic.json", expectedError: "frames[2].t (300) must be greater than frames[1].t (600)" },
+  { name: "t-starts-nonzero.json", expectedError: "frames[0].t must be 0, got 300" },
 ];
 
 test("every invalid fixture has an expected error", () => {
