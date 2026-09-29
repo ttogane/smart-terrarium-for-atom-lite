@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "id": "tl-20260815-tokyo-thunderstorm",
+  "source": {
+    "place": "Tokyo",
+    "lat": 35.6812,
+    "lon": 139.7671,
+    "tz": "Asia/Tokyo",
+    "start": "2026-08-15T15:00:00+09:00",
+    "end": "2026-08-15T16:00:00+09:00"
+  },
+  "speed": 60,
+  "loop": false,
+  "frames": [
+    { "t": 0, "sky": [90, 100, 120], "bri": 40, "sun": 10, "mist": 20, "rain": 0 },
+    { "t": 600, "sky": [60, 65, 80], "bri": 25, "sun": 0, "rain": 30 },
+    { "t": 900, "event": "lightning", "rain": 70 },
+    { "t": 960, "event": "lightning" },
+    { "t": 1500, "event": "lightning", "rain": 90, "mist": 40 },
+    { "t": 2400, "rain": 50 },
+    { "t": 3000, "sky": [110, 120, 140], "bri": 35, "rain": 20 },
+    { "t": 3600, "sky": [150, 165, 185], "bri": 50, "sun": 20, "mist": 10, "rain": 0 }
+  ]
+}
