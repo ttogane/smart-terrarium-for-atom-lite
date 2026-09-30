@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "id": "tl-invalid-t-starts-nonzero",
+  "source": {
+    "place": "Tokyo",
+    "lat": 35.6812,
+    "lon": 139.7671,
+    "tz": "Asia/Tokyo",
+    "start": "2026-09-30T14:00:00+09:00",
+    "end": "2026-09-30T15:00:00+09:00"
+  },
+  "speed": 1,
+  "loop": false,
+  "frames": [
+    { "t": 300, "bri": 60 },
+    { "t": 600, "bri": 50 }
+  ]
+}

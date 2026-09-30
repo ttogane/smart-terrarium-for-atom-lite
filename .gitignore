@@ -13,3 +13,4 @@ firmware/src/DefineConfig.h
 
 # Session scratch
 PROGRESS.md
+node_modules/
